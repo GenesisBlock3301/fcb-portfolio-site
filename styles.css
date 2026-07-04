@@ -35,7 +35,11 @@ body {
   background: var(--paper);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip; /* guard against any element bleeding past the viewport on mobile */
 }
+
+/* Offset in-page anchors so sections aren't hidden behind the sticky header */
+section[id] { scroll-margin-top: 76px; }
 
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -134,6 +138,9 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
 .header-actions { display: flex; align-items: center; gap: 18px; }
 .header-phone { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; color: var(--ink-soft); }
 .header-phone:hover { color: var(--orange); }
+
+/* Phone + quote CTA that live inside the mobile dropdown menu (hidden on desktop) */
+.mobile-nav-actions { display: none; }
 
 .nav-toggle { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 38px; height: 38px; border: none; background: none; cursor: pointer; }
 .nav-toggle span { display: block; height: 2px; width: 22px; background: var(--ink); border-radius: 2px; transition: transform .25s var(--ease), opacity .25s var(--ease); }
@@ -339,30 +346,49 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
 
 @media (max-width: 920px) {
   .main-nav { display: none; }
-  .header-phone { display: none; }
+  .header-actions { display: none; }        /* phone + quote move into the mobile menu */
   .nav-toggle { display: flex; }
   .about-grid, .contact-grid { grid-template-columns: 1fr; }
   .capability-grid, .mvv-grid { grid-template-columns: 1fr; }
   .product-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-inner { grid-template-columns: 1fr 1fr; }
+  .about-media-badge { right: 16px; bottom: -18px; } /* keep badge inside the viewport */
 
   .main-nav.is-open {
     display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
-    background: var(--paper); padding: 20px 24px; gap: 4px; border-bottom: 1px solid var(--line);
-    box-shadow: var(--shadow-md);
+    background: var(--paper); padding: 16px 24px 22px; gap: 2px; border-bottom: 1px solid var(--line);
+    box-shadow: var(--shadow-md); max-height: calc(100vh - 64px); overflow-y: auto;
   }
-  .main-nav.is-open a { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .main-nav.is-open > a { padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; }
+  .main-nav.is-open .mobile-nav-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .mobile-nav-actions .btn { width: 100%; }
+  .mobile-nav-phone { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; color: var(--ink-soft); }
+  .mobile-nav-phone:hover { color: var(--orange); }
 }
 
 @media (max-width: 640px) {
   .section { padding: 64px 0; }
-  .hero { padding-top: 130px; }
-  .hero-stats { grid-template-columns: repeat(2, 1fr); padding: 28px 20px; }
-  .hero-cta { flex-direction: column; align-items: flex-start; }
+  .hero { padding-top: 120px; }
+  .hero-inner { padding-bottom: 64px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); padding: 28px 20px; gap: 22px 12px; }
+  .hero-cta { flex-direction: column; align-items: stretch; width: 100%; }
+  .hero-cta .btn { width: 100%; }
   .product-grid { grid-template-columns: 1fr; }
   .clients-grid { grid-template-columns: repeat(3, 1fr); }
   .form-row { grid-template-columns: 1fr; }
-  .footer-inner { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
   .about-media-badge { right: 10px; bottom: -18px; padding: 14px 16px; }
-  .cert-strip { flex-direction: column; align-items: flex-start; }
+  .cert-strip { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .cert-strip img { min-width: 0; width: 100%; }
+  .contact-form { padding: 24px 20px; }
+  /* 16px prevents iOS Safari from auto-zooming when a field is focused */
+  .contact-form input, .contact-form select, .contact-form textarea { font-size: 16px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+@media (max-width: 400px) {
+  .container { padding: 0 18px; }
+  .header-inner { padding: 12px 18px; }
+  .brand-text strong { font-size: 14px; }
+  .hero h1 { font-size: 30px; }
 }
