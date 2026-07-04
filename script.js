@@ -133,6 +133,29 @@
     });
   });
 
+  /* ================= Clients grid: subtle 3D cursor-tilt ================= */
+  safe("clients tilt", () => {
+    // Only on fine-pointer devices that support hover, and when motion is allowed.
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!fine || reduced) return;
+
+    const MAX_X = 9;  // deg of rotateX (front/back)
+    const MAX_Y = 11; // deg of rotateY (left/right)
+    document.querySelectorAll(".client-logo").forEach(card => {
+      card.addEventListener("mousemove", (e) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - r.left) / r.width - 0.5;   // -0.5 .. 0.5
+        const dy = (e.clientY - r.top) / r.height - 0.5;
+        const rx = (-dy * MAX_X).toFixed(2);
+        const ry = (dx * MAX_Y).toFixed(2);
+        card.style.transform =
+          `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px) scale(1.04)`;
+      });
+      card.addEventListener("mouseleave", () => { card.style.transform = ""; });
+    });
+  });
+
   /* ================= Scroll reveal ================= */
   safe("scroll reveal", () => {
     const revealEls = document.querySelectorAll(".reveal");
