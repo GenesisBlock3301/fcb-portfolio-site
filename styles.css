@@ -176,13 +176,19 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
 .stat-label { font-size: 13px; color: rgba(255,255,255,.65); }
 
 /* ---------- Trust bar / marquee ---------- */
-.trust-bar { padding: 40px 0 48px; border-bottom: 1px solid var(--line); }
-.trust-heading p { text-align: center; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
-.marquee { overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.marquee-track { display: flex; align-items: center; gap: 56px; width: max-content; animation: scrollLogos 42s linear infinite; }
+.trust-bar { padding: 48px 0 52px; background: var(--paper-alt); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.trust-heading p { text-align: center; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 30px; }
+.marquee { overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.marquee-track { display: flex; align-items: center; gap: 18px; width: max-content; animation: scrollLogos 48s linear infinite; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
-.marquee-track img { height: 30px; width: auto; object-fit: contain; filter: grayscale(1) opacity(.6); transition: filter .25s var(--ease); }
-.marquee-track img:hover { filter: grayscale(0) opacity(1); }
+/* Uniform white cards so every logo reads at a consistent, prominent size */
+.marquee-track img {
+  width: 148px; height: 68px; object-fit: contain;
+  background: var(--white); padding: 12px 20px; border-radius: 12px;
+  border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.marquee-track img:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
 @keyframes scrollLogos { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* ---------- About ---------- */
@@ -319,7 +325,7 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
 .footer-links h4 { color: var(--white); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 16px; }
 .footer-links a { display: block; font-size: 14px; color: rgba(255,255,255,.65); margin-bottom: 12px; transition: color .2s; }
 .footer-links a:hover { color: var(--orange); }
-.footer-bottom { display: flex; justify-content: space-between; padding: 24px 0; font-size: 12.5px; color: rgba(255,255,255,.45); }
+.footer-bottom { display: flex; justify-content: space-between; padding: 24px 0; font-size: 13px; color: rgba(255,255,255,.85); }
 
 /* ---------- Back to top ---------- */
 .back-to-top {

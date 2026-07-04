@@ -110,7 +110,10 @@
         const img = document.createElement("img");
         img.src = `images/partners/${p.file}`;
         img.alt = p.name;
-        img.loading = "lazy";
+        // eager: these live in an off-screen, transform-animated track where
+        // lazy-loading never triggers, leaving most logos as raw alt text.
+        img.loading = "eager";
+        img.decoding = "async";
         frag.appendChild(img);
       });
       return frag;
