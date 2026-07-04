@@ -288,17 +288,20 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
 .cert-strip img { flex: 1; min-width: 260px; height: auto; }
 
 /* ---------- Clients (elevated 3D logo cards) ---------- */
-.clients-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; margin-top: 8px; }
+/* Flex wrap + centered so partial rows (22 logos never divide evenly) stay balanced */
+.clients-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-top: 8px; }
 .client-logo {
+  flex: 0 1 calc((100% - 5 * 18px) / 6 - 0.5px);   /* 6 per row on desktop */
   background: var(--white); display: flex; align-items: center; justify-content: center;
-  padding: 26px 20px; aspect-ratio: 3/2;
+  padding: 24px 22px; aspect-ratio: 3/2;
   border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm);
   transform-style: preserve-3d; will-change: transform;
   transition: transform .18s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
 }
 .client-logo:hover { box-shadow: var(--shadow-lg); border-color: transparent; }
 .client-logo img {
-  max-height: 40px; max-width: 100%; object-fit: contain;
+  /* uniform target box so every logo reads at a consistent visual size */
+  max-height: 34px; max-width: 78%; object-fit: contain;
   filter: grayscale(1); opacity: .72;
   transition: filter .3s var(--ease), opacity .3s var(--ease);
 }
@@ -361,7 +364,7 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
    ============================================================ */
 @media (max-width: 1080px) {
   .hero-stats { grid-template-columns: repeat(3, 1fr); }
-  .clients-grid { grid-template-columns: repeat(4, 1fr); }
+  .client-logo { flex-basis: calc((100% - 3 * 18px) / 4 - 0.5px); }  /* 4 per row */
 }
 
 @media (max-width: 920px) {
@@ -394,7 +397,7 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
   .hero-cta { flex-direction: column; align-items: stretch; width: 100%; }
   .hero-cta .btn { width: 100%; }
   .product-grid { grid-template-columns: 1fr; }
-  .clients-grid { grid-template-columns: repeat(3, 1fr); }
+  .client-logo { flex-basis: calc((100% - 2 * 18px) / 3 - 0.5px); }  /* 3 per row */
   .form-row { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; gap: 32px; }
   .about-media-badge { right: 10px; bottom: -18px; padding: 14px 16px; }
@@ -411,5 +414,5 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
   .header-inner { padding: 12px 18px; }
   .brand-text strong { font-size: 14px; }
   .hero h1 { font-size: 30px; }
-  .clients-grid { grid-template-columns: repeat(2, 1fr); }
+  .client-logo { flex-basis: calc((100% - 1 * 18px) / 2 - 0.5px); }  /* 2 per row */
 }
